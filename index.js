@@ -57,12 +57,7 @@ app.post('/webhook', (req, res) => {
           // We retrieve the message content
           const {text, attachments} = event.message;
 
-          if (attachments) {
-            // We received an attachment
-            // Let's reply with an automatic message
-            sendTextMessage(sender, 'Sorry I can only process text messages for now.')
-            .catch(console.error);
-          } else if (text) {
+          if (text) {
             // We received a text message
 
             // Let's forward the message to the Wit.ai Bot Engine
