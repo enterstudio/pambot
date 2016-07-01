@@ -1,10 +1,12 @@
 'use strict'
 
-const express = require('express')
+const express = require('express');
 const bodyParser = require('body-parser')
 const request = require('request')
 const app = express()
 const token = process.env.FB_PAGE_ACCESS_TOKEN
+// Wit.ai parameters
+const WIT_TOKEN = process.env.WIT_TOKEN;
 
 app.set('port', (process.env.PORT || 5000))
 
@@ -124,3 +126,58 @@ function sendGenericMessage(sender) {
         }
     })
 }
+
+// wit actions 
+let Wit = null;
+try {
+  // if running from repo
+  Wit = require('../').Wit;
+} catch (e) {
+  Wit = require('node-wit').Wit;
+}
+
+const accessToken = (() => {
+  if (process.argv.length !== 3) {
+    console.log('usage: node examples/quickstart.js <wit-access-token>');
+    process.exit(1);
+  }
+  return process.argv[2];
+})();
+
+// Quickstart example
+// See https://wit.ai/ar7hur/quickstart
+
+const firstEntityValue = (entities, entity) => {
+  const val = entities && entities[entity] &&
+    Array.isArray(entities[entity]) &&
+    entities[entity].length > 0 &&
+    entities[entity][0].value
+  ;
+  if (!val) {
+    return null;
+  }
+  return typeof val === 'object' ? val.value : val;
+};
+
+const actions = {
+  send(request, response) {
+    const {sessionId, context, entities} = request;
+    const {text, quickreplies} = response;
+    return new Promise(function(resolve, reject) {
+      console.log('sending...', JSON.stringify(response));
+      return resolve();
+    });
+  },
+  recDiscussion({context, entities}) {
+    return new Promise(function(resolve, reject) {
+      var topic = firstEntityValue(entities, 'topic')
+      if (topic) {
+        context.comment = 'this is a relevant comment about' + topic; // we should call a weather API here
+      }
+      return resolve(context);
+    });
+  },
+};
+
+const client = new Wit({accessToken, actions});
+client.interactive();
