@@ -9,6 +9,17 @@ const token = process.env.FB_PAGE_ACCESS_TOKEN
 const FB_APP_SECRET = process.env.FB_APP_SECRET;
 const WIT_TOKEN = process.env.WIT_TOKEN;
 
+let Wit = null;
+let log = null;
+try {
+  // if running from repo
+  Wit = require('../').Wit;
+  log = require('../').log;
+} catch (e) {
+  Wit = require('node-wit').Wit;
+  log = require('node-wit').log;
+}
+
 app.set('port', (process.env.PORT || 5000))
 
 // Process application/x-www-form-urlencoded
@@ -194,7 +205,7 @@ const actions = {
   send({sessionId}, {text}) {
     // Our bot has something to say!
     // Let's retrieve the Facebook user whose session belongs to
-    const sender = sessions[sessionId].fbid;
+    const sender = sessionId.fbid;
     if (sender) {
       // Yay, we found our recipient!
       // Let's forward our bot response to her.
@@ -264,3 +275,9 @@ function verifyRequestSignature(req, res, buf) {
     }
   }
 }
+
+const client = new Wit({
+    accessToken: WIT_TOKEN,
+    actions,
+});
+client.interactive();
