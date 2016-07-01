@@ -1,0 +1,24 @@
+{
+  "name": "pambot",
+  "version": "1.0.0",
+  "description": "Pam wow so happy want to connect you with interesting internet friends.",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/dmatt/pambot.git"
+  },
+  "author": "Daniel Matteson <dmatt@disqus.com>",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/dmatt/pambot/issues"
+  },
+  "homepage": "https://github.com/dmatt/pambot#readme",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "request": "^2.72.0"
+  }
+}
