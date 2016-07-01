@@ -275,9 +275,3 @@ function verifyRequestSignature(req, res, buf) {
     }
   }
 }
-
-const client = new Wit({
-    accessToken: WIT_TOKEN,
-    actions,
-});
-client.interactive();
