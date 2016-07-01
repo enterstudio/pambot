@@ -228,7 +228,7 @@ const actions = {
   },
   // You should implement your custom actions here
   // See https://wit.ai/docs/quickstart
-    recDiscussion(context, entities) {
+    recDiscussion({context, entities}) {
         return new Promise(function(resolve, reject) {
           var topic = firstEntityValue(entities, 'topic')
           if (topic) {
