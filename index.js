@@ -1,11 +1,11 @@
 'use strict'
 
-const express = require('express')
-const bodyParser = require('body-parser')
-const request = require('request')
+const express = require('express');
+const bodyParser = require('body-parser');
+const request = require('request');
 const crypto = require('crypto');
-const app = express()
-const token = process.env.FB_PAGE_ACCESS_TOKEN
+const app = express();
+const token = process.env.FB_PAGE_ACCESS_TOKEN;
 const FB_APP_SECRET = process.env.FB_APP_SECRET;
 const WIT_TOKEN = process.env.WIT_TOKEN;
 
