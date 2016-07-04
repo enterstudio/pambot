@@ -66,9 +66,14 @@ app.post('/webhook', (req, res) => {
           const sessionId = findOrCreateSession(sender);
 
           // We retrieve the message content
-          const text = event.message;
+          const {text, attachments} = event.message;
 
-          if (text) {
+          if (attachments) {
+            // We received an attachment
+            // Let's reply with an automatic message
+            sendTextMessage(sender, 'Sorry I can only process text messages for now.')
+            .catch(console.error);
+          } else if (text) {
             // We received a text message
 
             // Let's forward the message to the Wit.ai Bot Engine
@@ -241,15 +246,15 @@ const actions = {
   },
   // You should implement your custom actions here
   // See https://wit.ai/docs/quickstart
-    recDiscussion({context, entities}) {
-        return new Promise(function(resolve, reject) {          
-          var topic = firstEntityValue(entities, 'topic')
-          if (topic) {
-            context.comment = 'this is a cool comment about ' + topic; // we should call a weather API here
-          }
-          return resolve(context);
-        });
-      }, 
+  recDiscussion({context, entities}) {
+      return new Promise(function(resolve, reject) {          
+        var topic = firstEntityValue(entities, 'topic')
+        if (topic) {
+          context.comment = 'this is a cool comment about ' + topic; // we should call a weather API here
+        }
+        return resolve(context);
+      });
+    }, 
 };
 
 // Setting up our bot
