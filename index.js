@@ -115,14 +115,13 @@ app.post('/webhook', (req, res) => {
 
 // Function to echo back messages
 function sendTextMessage(sender, msg) {
-    let messageData = {msg}
     request({
         url: 'https://graph.facebook.com/v2.6/me/messages',
         qs: {access_token:token},
         method: 'POST',
         json: {
-            recipient: {id:sender},
-            message: messageData,
+            recipient: {id: sender},
+            message: {text: msg}
         }
     }, function(error, response, body) {
         if (error) {
