@@ -114,8 +114,8 @@ app.post('/webhook', (req, res) => {
 });
 
 // Function to echo back messages
-function sendTextMessage(sender, text) {
-    let messageData = { msg }
+function sendTextMessage(sender, msg) {
+    let messageData = {msg}
     request({
         url: 'https://graph.facebook.com/v2.6/me/messages',
         qs: {access_token:token},
@@ -231,7 +231,7 @@ const actions = {
       // Yay, we found our recipient!
       // Let's forward our bot response to her.
       // We return a promise to let our bot know when we're done sending
-      return sendTextMessage(sender, text)
+      return sendTextMessage(sender, msg)
       .then(() => null)
       .catch((err) => {
         console.error(
