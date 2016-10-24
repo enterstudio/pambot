@@ -76,14 +76,14 @@ app.post('/webhook', (req, res) => {
             // Let's reply with an automatic message
             sendTextMessage(sender, 'Sorry I can only process text messages for now.')
             .catch(console.error);
-          } else if (msg.text) {
+          } else if (msg) {
             // We received a text message
 
             // Let's forward the message to the Wit.ai Bot Engine
             // This will run all actions until our bot has nothing left to do
             wit.runActions(
               sessionId, // the user's current session
-              msg.text, // the user's message
+              msg, // the user's message
               sessions[sessionId].context // the user's current session state
             ).then((context) => {
               // Our bot did everything it has to do.
