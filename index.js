@@ -69,7 +69,7 @@ app.post('/webhook', (req, res) => {
           console.log("DEBUG: event.message.text= ",event.message.text);
 
           // We retrieve the message content
-          const msg = event.message.text;
+          const msg = event.message;
           const atts = event.message.attachments;
 
           if (atts) {
@@ -77,14 +77,14 @@ app.post('/webhook', (req, res) => {
             // Let's reply with an automatic message
             sendTextMessage(sender, 'Sorry I can only process text messages for now.')
             .catch(console.error);
-          } else if (msg) {
+          } else if (msg.text) {
             // We received a text message
 
             // Let's forward the message to the Wit.ai Bot Engine
             // This will run all actions until our bot has nothing left to do
             wit.runActions(
               sessionId, // the user's current session
-              msg, // the user's message
+              msg.text, // the user's message
               sessions[sessionId].context // the user's current session state
             ).then((context) => {
               // Our bot did everything it has to do.
@@ -122,7 +122,7 @@ function sendTextMessage(sender, msg) {
         method: 'POST',
         json: {
             recipient: {id: sender},
-            message: {text: msg}
+            msg
         }
     }, function(error, response, body) {
         if (error) {
