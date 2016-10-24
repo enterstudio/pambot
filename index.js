@@ -122,7 +122,7 @@ function sendTextMessage(sender, msg) {
         method: 'POST',
         json: {
             recipient: {id: sender},
-            msg
+            message: {text: msg.text},
         }
     }, function(error, response, body) {
         if (error) {
