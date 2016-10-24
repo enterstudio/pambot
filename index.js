@@ -30,7 +30,7 @@ app.use(bodyParser.json({ verify: verifyRequestSignature }));
 
 // Index route
 app.get('/', function (req, res) {
-    res.send('Hello world, I am a chat bot')
+    res.send('Hello world, I am Pam Bot')
 })
 
 // for Facebook verification
@@ -66,21 +66,22 @@ app.post('/webhook', (req, res) => {
           const sessionId = findOrCreateSession(sender);
 
           // We retrieve the message content
-          const {text, attachments} = event.message;
+          const msg = event.message.text;
+          const atts = event.message.attachments;
 
-          if (attachments) {
+          if (atts) {
             // We received an attachment
             // Let's reply with an automatic message
             sendTextMessage(sender, 'Sorry I can only process text messages for now.')
             .catch(console.error);
-          } else if (text) {
+          } else if (msg) {
             // We received a text message
 
             // Let's forward the message to the Wit.ai Bot Engine
             // This will run all actions until our bot has nothing left to do
             wit.runActions(
               sessionId, // the user's current session
-              text, // the user's message
+              msg, // the user's message
               sessions[sessionId].context // the user's current session state
             ).then((context) => {
               // Our bot did everything it has to do.
@@ -220,7 +221,7 @@ const firstEntityValue = (entities, entity) => {
       };
 
 const actions = {
-  send({sessionId}, {text}) {
+  send({sessionId}, {msg}) {
     // Our bot has something to say!
     // Let's retrieve the Facebook user whose session belongs to
     const sender = sessions[sessionId].fbid;
