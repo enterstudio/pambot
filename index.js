@@ -65,7 +65,8 @@ app.post('/webhook', (req, res) => {
           // This is needed for our bot to figure out the conversation history
           const sessionId = findOrCreateSession(sender);
 
-          console.log("DEBUG: event= ",event)
+          console.log("DEBUG: event= ",event);
+          console.log("DEBUG: event.message.text= ",event.message.text);
 
           // We retrieve the message content
           const msg = event.message.text;
