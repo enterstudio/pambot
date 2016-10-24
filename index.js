@@ -69,8 +69,7 @@ app.post('/webhook', (req, res) => {
           console.log("DEBUG: event.message.text= ",event.message.text);
 
           // We retrieve the message content
-          const msg = event.message;
-          const atts = event.message.attachments;
+          const {msg, atts} = event.message;
 
           if (atts) {
             // We received an attachment
@@ -231,6 +230,7 @@ const actions = {
       // Yay, we found our recipient!
       // Let's forward our bot response to her.
       // We return a promise to let our bot know when we're done sending
+      // TODO: THIS IS THE PROBLEM, msg is undefined
       console.log("state of msg rn: ",msg)
       return sendTextMessage(sender, msg)
       .then(() => null)
